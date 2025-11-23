@@ -150,6 +150,7 @@ body.ytm-custom-layout ytmusic-search-box input {
 	height: 60vh;
 	overflow-y: auto;
 	scrollbar-width: none;
+	padding: 0 40px 0 40px;
 	/* Fade mask for top/bottom */
 	mask-image: linear-gradient(
 		to bottom,
@@ -179,12 +180,12 @@ body.ytm-custom-layout ytmusic-search-box input {
 	transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 	transform-origin: left center;
 	filter: blur(1.5px);
-	transform: scale(0.95);
+	transform: scale(0.8);
 }
 .lyric-line.active {
 	color: #ffffff;
 	filter: blur(0);
-	transform: scale(1.05);
+	transform: scale(1);
 	text-shadow: 0 0 40px rgba(255, 255, 255, 0.7);
 }
 
@@ -265,7 +266,7 @@ body.ytm-custom-layout .right-controls {
 	padding: 8px 18px;
 	font-weight: 600;
 	cursor: pointer;
-	margin-left: 15px;
+	margin: 0 15px 0 15px;
 	font-size: 11px;
 	letter-spacing: 1.5px;
 }
