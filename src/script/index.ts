@@ -1,3 +1,5 @@
+import { fetchLyrics } from "./lib";
+
 (() => {
 	// --- State & Constants ---
 	let currentSongKey: string | null = null;
