@@ -112,7 +112,7 @@ body.ytm-custom-layout ytmusic-search-box input {
 	width: 100%;
 	aspect-ratio: 1 / 1;
 	margin-bottom: 40px;
-	border-radius: 20px;
+	/* border-radius: 20px; */
 	box-shadow: 0 50px 100px -20px rgba(0, 0, 0, 0.7);
 	overflow: hidden;
 }
@@ -261,7 +261,7 @@ body.ytm-custom-layout .right-controls {
 	background: rgba(255, 255, 255, 0.1);
 	border: none;
 	color: #fff;
-	border-radius: 20px;
+	border-radius: 100vmax;
 	padding: 8px 18px;
 	font-weight: 600;
 	cursor: pointer;
@@ -271,7 +271,16 @@ body.ytm-custom-layout .right-controls {
 }
 body.ytm-custom-layout #my-mode-toggle {
 	/* Active state */
-	background: #fff;
-	color: #000;
+	background: rgba(255, 255, 255, 0.1);
+	color: #fff;
 	box-shadow: 0 0 20px rgba(255, 255, 255, 0.4);
+}
+
+body.ytm-custom-layout {
+	.middle-controls,
+	ytmusic-player-page,
+	#guide-button,
+	#hover-time-info {
+		display: none !important;
+	}
 }

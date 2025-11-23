@@ -50,10 +50,6 @@ import { fetchLyrics } from "./lib";
 
 	// --- UI/Layout Management ---
 
-	/**
-	 * カスタムレイアウトの適用状態を判定し、DOMにクラスを付与/削除する
-	 * @returns {boolean} カスタムモードが現在有効かどうか
-	 */
 	function applyLayout() {
 		const layout = document.querySelector("ytmusic-app-layout");
 		const isPlayerOpen = layout?.hasAttribute("player-page-open");
@@ -61,7 +57,6 @@ import { fetchLyrics } from "./lib";
 
 		if (btn) {
 			btn.style.display = isPlayerOpen ? "inline-block" : "none";
-			updateButtonStyle(btn);
 		}
 
 		const shouldApply = isModeEnabled && isPlayerOpen;
@@ -152,27 +147,7 @@ import { fetchLyrics } from "./lib";
 				isModeEnabled = !isModeEnabled;
 				applyLayout();
 			};
-			rightControls.prepend(btn);
-		}
-	}
-
-	function updateButtonStyle(btn: HTMLElement) {
-		if (isModeEnabled) {
-			btn.style.cssText = `
-                opacity: 1; 
-                box-shadow: 0 0 10px rgba(255,255,255,0.5); 
-                background: #fff; 
-                color: #000; 
-                font-weight: bold;
-            `;
-		} else {
-			btn.style.cssText = `
-                opacity: 0.6; 
-                box-shadow: none; 
-                background: rgba(255,255,255,0.1); 
-                color: #fff; 
-                font-weight: normal;
-            `;
+			rightControls.append(btn);
 		}
 	}
 
