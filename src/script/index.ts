@@ -1,30 +1,43 @@
 (() => {
 	// --- State & Constants ---
-	let currentSongKey = null;
-	let lyricsData = [];
-	let lyricLines = [];
+	let currentSongKey: string | null = null;
+	let lyricsData: {
+		time: number;
+		text: string;
+	}[] = [];
+	let lyricLines: NodeListOf<Element>;
 	let isModeEnabled = true;
 	let lastSongChangeTime = 0;
 
 	// --- DOM Elements Cache ---
-	let lyricsContainer = null;
-	let customWrapper = null;
-	let customBg = null;
-	let titleEl = null;
-	let artistEl = null;
-	let artworkContainer = null;
+	let lyricsContainer: HTMLElement | null = null;
+	let customWrapper: HTMLElement | null = null;
+	let customBg: HTMLElement | null = null;
+	let titleEl: HTMLElement | null = null;
+	let artistEl: HTMLElement | null = null;
+	let artworkContainer: HTMLElement | null = null;
 
 	const INIT_TIME = 2000; // 歌詞の更新が完了するまでの待機時間（ms）
 
 	// --- API & Parser ---
-	async function fetchLyrics(title, artist) {
+	async function fetchLyrics(title: string, artist: string) {
 		try {
 			const cleanTitle = title.replace(/\s*[(-[].*?[)-]].*/, "").trim();
 			const cleanArtist = artist.replace(/\s*[(-[].*?[)-]].*/, "").trim();
 			const query = encodeURIComponent(`${cleanTitle} ${cleanArtist}`);
 
 			const response = await fetch(`https://lrclib.net/api/search?q=${query}`);
-			const data = await response.json();
+			const data: {
+				id: number;
+				name: string;
+				trackName: string;
+				artistName: string;
+				albumName: string;
+				duration: number;
+				instrumental: boolean;
+				plainLyrics: null | string;
+				syncedLyrics: null | string;
+			}[] = await response.json();
 
 			let match = data.find((item) => {
 				if (!item.syncedLyrics) return false;
@@ -41,7 +54,7 @@
 			});
 
 			if (!match) match = data.find((item) => item.syncedLyrics);
-			if (match) return parseLRC(match.syncedLyrics);
+			if (match?.syncedLyrics) return parseLRC(match.syncedLyrics);
 
 			return [{ time: 0, text: "Lyrics not found" }];
 		} catch (_e) {
@@ -49,7 +62,7 @@
 		}
 	}
 
-	function parseLRC(lrc) {
+	function parseLRC(lrc: string) {
 		const lines = lrc.split("\n");
 		const result = [];
 		const timeRegex = /\[(\d{2}):(\d{2})\.(\d{2,3})\]/;
@@ -163,7 +176,7 @@
 		}
 	}
 
-	function updateLyricsUI(data) {
+	function updateLyricsUI(data: { time: number; text: string }[]) {
 		if (!lyricsContainer) return;
 		lyricsContainer.innerHTML = "";
 		lyricsContainer.scrollTo(0, 0);
@@ -202,7 +215,7 @@
 		}
 	}
 
-	function updateButtonStyle(btn) {
+	function updateButtonStyle(btn: HTMLElement) {
 		if (isModeEnabled) {
 			btn.style.cssText = `
                 opacity: 1; 
@@ -224,7 +237,7 @@
 
 	// --- Main Logic ---
 
-	function handleTimeUpdate(video) {
+	function handleTimeUpdate(video: HTMLVideoElement) {
 		if (!document.body.classList.contains("ytm-custom-layout")) return;
 		if (!lyricsData || lyricsData.length === 0) return;
 

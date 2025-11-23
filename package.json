@@ -1,10 +1,18 @@
 {
 	"dependencies": {},
 	"devDependencies": {
-		"@biomejs/biome": "^2.3.7"
+		"@biomejs/biome": "^2.3.7",
+		"@types/bun": "latest"
 	},
 	"scripts": {
 		"lint": "biome lint .",
-		"format": "biome format --write ."
+		"format": "biome format --write .",
+		"tsc": "tsc",
+		"build": "bun run ./src/util/build.ts"
+	},
+	"name": "webytm-fluent",
+	"type": "module",
+	"peerDependencies": {
+		"typescript": "^5"
 	}
 }

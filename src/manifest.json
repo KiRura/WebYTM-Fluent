@@ -1,8 +1,8 @@
 {
 	"manifest_version": 3,
-	"name": "YouTube Music Moden UI Beta",
+	"name": "WebYTM-Fluent",
 	"version": "0.9",
-	"description": "YouTube MusicのUIをApple Music風に変更します",
+	"description": "Web版YouTube Musicのデザイン変更, lrclibからの歌詞取得, 位置同期",
 	"permissions": ["scripting", "storage", "tabs"],
 	"host_permissions": [
 		"https://music.youtube.com/*",
@@ -11,7 +11,7 @@
 	"content_scripts": [
 		{
 			"matches": ["https://music.youtube.com/*"],
-			"js": ["/js/index.js"],
+			"js": ["/script/index.js"],
 			"css": ["/css/common.css"],
 			"run_at": "document_idle"
 		}
