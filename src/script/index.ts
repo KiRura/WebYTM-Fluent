@@ -30,7 +30,7 @@ import { fetchLyrics } from "./lib";
 				artist: meta.artist,
 				artwork:
 					meta.artwork.length > 0
-						? meta.artwork[meta.artwork.length - 1].src
+						? meta.artwork[meta.artwork.length - 1]?.src
 						: null,
 			};
 		}
@@ -43,7 +43,7 @@ import { fetchLyrics } from "./lib";
 		if (!titleEl || !subtitleEl) return null;
 		return {
 			title: titleEl.textContent,
-			artist: subtitleEl.textContent.split("•")[0].trim(),
+			artist: subtitleEl.textContent.split("•")[0]?.trim(),
 			artwork: null,
 		};
 	}
@@ -163,19 +163,21 @@ import { fetchLyrics } from "./lib";
 
 		let activeIndex = -1;
 		for (let i = 0; i < lyricsData.length; i++) {
-			if (currentTime >= lyricsData[i].time) activeIndex = i;
+			const data = lyricsData[i];
+			if (!data) continue;
+			if (currentTime >= data.time) activeIndex = i;
 			else break;
 		}
 
 		if (activeIndex !== -1 && lyricLines[activeIndex]) {
 			const activeLine = lyricLines[activeIndex];
-			if (!activeLine.classList.contains("active")) {
+			if (!activeLine?.classList.contains("active")) {
 				for (const line of lyricLines) {
 					line.classList.remove("active");
 				}
-				activeLine.classList.add("active");
+				activeLine?.classList.add("active");
 				const behavior = activeIndex === 0 ? "auto" : "smooth";
-				activeLine.scrollIntoView({ behavior: behavior, block: "center" });
+				activeLine?.scrollIntoView({ behavior: behavior, block: "center" });
 			}
 		}
 	}
@@ -198,11 +200,12 @@ import { fetchLyrics } from "./lib";
 			lastSongChangeTime = Date.now();
 
 			if (titleEl) titleEl.innerText = info.title;
-			if (artistEl) artistEl.innerText = info.artist;
+			if (artistEl && info.artist) artistEl.innerText = info.artist;
 			if (info.artwork) {
 				if (artworkContainer)
 					artworkContainer.innerHTML = `<img src="${info.artwork}" crossorigin="anonymous">`;
-				if (customBg) customBg.style.backgroundImage = `url(${info.artwork})`;
+				if (customBg)
+					customBg.innerHTML = `<img src="${info.artwork}" crossorigin="anonymous">`;
 			}
 
 			lyricsData = [];
@@ -212,7 +215,7 @@ import { fetchLyrics } from "./lib";
 				lyricsContainer.scrollTo(0, 0);
 			}
 
-			const fetchedData = await fetchLyrics(info.title, info.artist);
+			const fetchedData = await fetchLyrics(info.title, info.artist ?? "");
 
 			// 競合状態を防ぐため、fetch完了後に再度IDを確認
 			if (currentSongKey === songId) {

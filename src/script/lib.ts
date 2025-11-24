@@ -21,7 +21,7 @@ export async function fetchLyrics(title: string, artist: string) {
 		}[] = await response.json();
 
 		let match = data.find((item) => {
-			if (!item.syncedLyrics) return false;
+			if (!item.syncedLyrics || !cleanArtist) return false;
 			const itemArtist = item.artistName.toLowerCase();
 			const targetArtist = cleanArtist.toLowerCase();
 			const isArtistMatch =
@@ -48,7 +48,7 @@ function parseLRC(lrc: string) {
 	const timeRegex = /\[(\d{2}):(\d{2})\.(\d{2,3})\]/;
 	for (const line of lines) {
 		const match = line.match(timeRegex);
-		if (match) {
+		if (match?.[1] && match[2] && match[3]) {
 			const time =
 				parseInt(match[1], 10) * 60 +
 				parseInt(match[2], 10) +

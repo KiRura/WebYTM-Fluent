@@ -1,7 +1,7 @@
 {
 	"manifest_version": 3,
 	"name": "WebYTM-Fluent",
-	"version": "0.9",
+	"version": "0.2.0",
 	"description": "Web版YouTube Musicのデザイン変更, lrclibからの歌詞取得, 位置同期",
 	"permissions": ["scripting", "storage", "tabs"],
 	"host_permissions": [
